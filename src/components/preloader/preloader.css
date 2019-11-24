@@ -1,0 +1,29 @@
+.preloader {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50px;
+  width: 50px;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.preloader:before {
+  position: absolute;
+  top: calc(50% - 25px);
+  content: "";
+  width: inherit;
+  height: inherit;
+  border: 3px solid;
+  border-color: transparent rgb(158, 158, 158);
+  border-radius: 50%;
+  animation: 1s spin ease infinite;
+}
+@keyframes spin {
+  0% {
+    transform: rotate(0);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
