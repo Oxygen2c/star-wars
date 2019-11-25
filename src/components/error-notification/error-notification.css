@@ -1,0 +1,8 @@
+.error-notification {
+  color: red;
+  text-align: center;
+  width: 100%;
+}
+.error-notification p {
+  margin: 0;
+}
