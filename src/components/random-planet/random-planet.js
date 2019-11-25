@@ -6,17 +6,18 @@ import ErrorNotification from "../error-notification/error-notification";
 export default class RandomPlanet extends Component {
   swapi = new SwapiService();
 
-  constructor() {
-    super();
-    this.updatePlanet();
-  }
-
   state = {
     planet: {},
     loading: true,
     error: false
   };
-
+  componentDidMount() {
+    this.updatePlanet();
+    this.timer = setInterval(this.updatePlanet, 2000);
+  }
+  componentWillMount() {
+    clearInterval(this.timer);
+  }
   onPlanetLoaded = planet => {
     this.setState({ planet, loading: false });
   };
@@ -24,13 +25,13 @@ export default class RandomPlanet extends Component {
     this.setState({ error: true, loading: false });
   };
 
-  updatePlanet() {
+  updatePlanet = () => {
     const id = Math.floor(Math.random() * 8) + 2;
     this.swapi
-      .getPlanet(80)
+      .getPlanet(id)
       .then(this.onPlanetLoaded)
       .catch(this.onError);
-  }
+  };
 
   render() {
     const { planet, loading, error } = this.state;
