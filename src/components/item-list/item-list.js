@@ -7,12 +7,13 @@ export default class ItemList extends Component {
   swapi = new SwapiService();
 
   state = {
-    peopleList: []
+    peopleList: [],
+    loading: true
   };
 
   componentDidMount() {
     this.swapi.getAllPeople().then(peopleList => {
-      this.setState({ peopleList });
+      this.setState({ peopleList, loading: false });
     });
   }
 
@@ -33,12 +34,15 @@ export default class ItemList extends Component {
   };
 
   render() {
-    const { peopleList } = this.state;
-    const items = this.renderItem(peopleList);
+    const { peopleList, loading } = this.state;
+    const loader = loading ? <Preloader /> : null;
+    const items = !loading ? this.renderItem(peopleList) : null;
 
-    if (!peopleList) {
-      return <Preloader />;
-    }
-    return <ul className="item-list list-group">{items}</ul>;
+    return (
+      <ul className="item-list list-group">
+        {items}
+        {loader}
+      </ul>
+    );
   }
 }

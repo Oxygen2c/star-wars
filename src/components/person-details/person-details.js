@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import SwapiService from "../../services/swapi-service";
-
+import ErrorThrow from "../error-throw/error-throw";
+import Preloader from "../preloader";
 import "./person-details.css";
 
 export default class PersonDetails extends Component {
@@ -8,7 +9,7 @@ export default class PersonDetails extends Component {
 
   state = {
     person: {},
-    loading: true,
+    loading: this.props.loading,
     error: false
   };
 
@@ -40,7 +41,7 @@ export default class PersonDetails extends Component {
       .catch(this.onError);
   }
 
-  render() {
+  renderCard = () => {
     const {
       person: { id, name, gender, birthYear, eyeColor }
     } = this.state;
@@ -68,7 +69,21 @@ export default class PersonDetails extends Component {
               <span>{eyeColor}</span>
             </li>
           </ul>
+          <ErrorThrow />
         </div>
+      </div>
+    );
+  };
+
+  render() {
+    const { loading } = this.state;
+    const loader = loading ? <Preloader /> : null;
+    const personCard = !loading ? this.renderCard() : null;
+
+    return (
+      <div>
+        {loader}
+        {personCard}
       </div>
     );
   }
