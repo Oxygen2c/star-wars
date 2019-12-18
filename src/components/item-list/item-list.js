@@ -1,24 +1,24 @@
 import React, { Component } from "react";
-import SwapiService from "../../services/swapi-service";
 import Preloader from "../preloader";
 import "./item-list.css";
 
 export default class ItemList extends Component {
-  swapi = new SwapiService();
-
   state = {
-    peopleList: [],
+    itemsList: [],
     loading: true
   };
 
   componentDidMount() {
-    this.swapi.getAllPeople().then(peopleList => {
-      this.setState({ peopleList, loading: false });
+    const { getData } = this.props;
+    getData().then(itemsList => {
+      this.setState({ itemsList, loading: false });
     });
   }
 
-  renderItem = peopleList => {
-    return peopleList.map(({ name, id }) => {
+  renderItem = itemsList => {
+    return itemsList.map(item => {
+      const { id } = item;
+      const label = this.props.renderData(item);
       return (
         <li
           className="list-group-item"
@@ -27,16 +27,16 @@ export default class ItemList extends Component {
             this.props.onItemSelected(id);
           }}
         >
-          {name}
+          {label}
         </li>
       );
     });
   };
 
   render() {
-    const { peopleList, loading } = this.state;
+    const { itemsList, loading } = this.state;
     const loader = loading ? <Preloader /> : null;
-    const items = !loading ? this.renderItem(peopleList) : null;
+    const items = !loading ? this.renderItem(itemsList) : null;
 
     return (
       <ul className="item-list list-group">

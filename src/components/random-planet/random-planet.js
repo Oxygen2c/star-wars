@@ -11,10 +11,10 @@ export default class RandomPlanet extends Component {
     loading: true,
     error: false
   };
-  
+
   componentDidMount() {
     this.updatePlanet();
-    this.timer = setInterval(this.updatePlanet, 2000);
+    // this.timer = setInterval(this.updatePlanet, 2000);
   }
 
   componentWillUnmount() {
